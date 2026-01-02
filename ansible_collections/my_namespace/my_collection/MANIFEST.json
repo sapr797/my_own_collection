@@ -1,0 +1,32 @@
+{
+ "collection_info": {
+  "namespace": "my_namespace",
+  "name": "my_collection",
+  "version": "1.0.0",
+  "authors": [
+   "\u0412\u0430\u0448\u0435 \u0418\u043c\u044f <your.email@example.com>"
+  ],
+  "readme": "README.md",
+  "tags": [
+   "development",
+   "example",
+   "custom_module"
+  ],
+  "description": "\u041c\u043e\u044f \u043f\u0435\u0440\u0432\u0430\u044f \u043a\u043e\u043b\u043b\u0435\u043a\u0446\u0438\u044f Ansible \u0441 \u0441\u043e\u0431\u0441\u0442\u0432\u0435\u043d\u043d\u044b\u043c \u043c\u043e\u0434\u0443\u043b\u0435\u043c",
+  "license": [],
+  "license_file": "LICENSE",
+  "dependencies": {},
+  "repository": "https://github.com/yourusername/my-collection",
+  "documentation": "https://github.com/yourusername/my-collection/docs",
+  "homepage": "https://github.com/yourusername/my-collection",
+  "issues": "https://github.com/yourusername/my-collection/issues"
+ },
+ "file_manifest_file": {
+  "name": "FILES.json",
+  "ftype": "file",
+  "chksum_type": "sha256",
+  "chksum_sha256": "17dcb3b867b0943fb7d19fe31d0f261aafa5f2547def1f0826005b28c9d50e37",
+  "format": 1
+ },
+ "format": 1
+}

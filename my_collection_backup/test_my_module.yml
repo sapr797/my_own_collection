@@ -1,0 +1,69 @@
+---
+- name: Тестирование моего собственного модуля
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  
+  vars:
+    target_path: "/tmp/test_my_module.txt"
+  
+  tasks:
+    - name: Создание файла с помощью моего модуля
+      my_namespace.my_collection.my_own_module:
+        path: "{{ target_path }}"
+        content: |
+          Привет! Это тестовый файл, созданный моим собственным модулем.
+          Модуль разработан для демонстрации возможностей Ansible.
+          
+          Параметры:
+          - Хост: {{ ansible_hostname }}
+          - Пользователь: {{ ansible_user }}
+          - Дата: {{ ansible_date_time.date }}
+          - Время: {{ ansible_date_time.time }}
+        mode: "0644"
+        owner: "ubuntu"
+        state: present
+      register: create_result
+    
+    - name: Показать результат создания
+      debug:
+        var: create_result
+    
+    - name: Обновление файла (без изменений)
+      my_namespace.my_collection.my_own_module:
+        path: "{{ target_path }}"
+        content: |
+          Привет! Это тестовый файл, созданный моим собственным модулем.
+          Модуль разработан для демонстрации возможностей Ansible.
+          
+          Параметры:
+          - Хост: {{ ansible_hostname }}
+          - Пользователь: {{ ansible_user }}
+          - Дата: {{ ansible_date_time.date }}
+          - Время: {{ ansible_date_time.time }}
+        mode: "0644"
+        owner: "ubuntu"
+        state: present
+      register: update_result
+    
+    - name: Показать результат обновления (должен быть unchanged)
+      debug:
+        var: update_result
+    
+    - name: Проверить чтение файла
+      shell: "cat {{ target_path }} | wc -l"
+      register: line_count
+    
+    - name: Показать количество строк
+      debug:
+        msg: "Файл содержит {{ line_count.stdout }} строк"
+    
+    - name: Удаление файла
+      my_namespace.my_collection.my_own_module:
+        path: "{{ target_path }}"
+        state: absent
+      register: delete_result
+    
+    - name: Показать результат удаления
+      debug:
+        var: delete_result

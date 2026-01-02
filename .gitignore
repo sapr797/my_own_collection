@@ -1,0 +1,32 @@
+# Игнорируем виртуальное окружение Python
+venv/
+ansible312/
+ansible_dev_env/
+env/
+*.venv
+
+# Игнорируем кэш Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Игнорируем скрытые файлы настроек IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Игнорируем служебные файлы и архивы
+*.retry
+*.tar.gz
+*.log
+
+# Игнорируем персональные или временные файлы
+.DS_Store
+Thumbs.db
+
+# Игнорируем потенциально чувствительные данные
+*.key
+*.pem
+*.cert
+vault.yml

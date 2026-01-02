@@ -1,0 +1,21 @@
+---
+- name: Финальный тест моего модуля
+  hosts: localhost
+  connection: local
+  gather_facts: no  # Факты не собираем, переменные не нужны
+
+  tasks:
+    - name: Создание файла
+      my_namespace.my_collection.my_own_module:
+        path: "/tmp/my_module_success.txt"
+        content: |
+          Поздравляю! Мой собственный модуль Ansible работает!
+          Этот файл создан в рамках тестирования.
+        mode: "0644"
+        owner: "ubuntu"  # Явно указываем пользователя, убираем переменную
+        state: present
+      register: result
+
+    - name: Показать результат
+      debug:
+        msg: "Файл создан. Путь: {{ result.path }}, Изменения: {{ result.changed }}"

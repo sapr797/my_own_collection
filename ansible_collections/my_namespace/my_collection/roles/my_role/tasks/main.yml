@@ -1,0 +1,30 @@
+---
+- name: Использование моего собственного модуля
+  my_namespace.my_collection.my_own_module:
+    path: "{{ target_path | default('/tmp/my_file.txt') }}"
+    content: |
+      Этот файл создан моим собственным модулем Ansible!
+      Дата: {{ ansible_date_time.date }}
+      Время: {{ ansible_date_time.time }}
+      Хост: {{ ansible_hostname }}
+    mode: "0644"
+    owner: "ubuntu"
+    state: present
+  register: file_result
+
+- name: Показать результат
+  debug:
+    msg: |
+      Файл создан: {{ file_result.changed }}
+      Путь: {{ file_result.path }}
+      Размер: {{ file_result.size }} байт
+      Контрольная сумма: {{ file_result.checksum }}
+
+- name: Проверка существования файла
+  stat:
+    path: "{{ target_path | default('/tmp/my_file.txt') }}"
+  register: file_stat
+
+- name: Показать информацию о файле
+  debug:
+    msg: "Файл существует: {{ file_stat.stat.exists }}, Размер: {{ file_stat.stat.size }} байт"
