@@ -1,0 +1,114 @@
+---
+- name: Комплексный тест кастомного модуля
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Очистка тестовых файлов
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /tmp/test_complex.txt
+        - /tmp/test_idempotent.txt
+        - /tmp/test_changes.txt
+
+    # Тест 1: Базовая идемпотентность
+    - name: Тест 1.1 - Создание файла
+      my_namespace.my_collection.my_own_module:
+        path: /tmp/test_complex.txt
+        content: |
+          Начальное содержимое файла.
+          Вторая строка для тестирования.
+        mode: "0644"
+        owner: "ubuntu"
+        group: "ubuntu"
+      register: test1_1
+
+    - name: Тест 1.2 - Идемпотентность (повтор с теми же параметрами)
+      my_namespace.my_collection.my_own_module:
+        path: /tmp/test_complex.txt
+        content: |
+          Начальное содержимое файла.
+          Вторая строка для тестирования.
+        mode: "0644"
+        owner: "ubuntu"
+        group: "ubuntu"
+      register: test1_2
+
+    - name: Проверка теста 1 (идемпотентность)
+      assert:
+        that:
+          - test1_1.changed
+          - not test1_2.changed
+        fail_msg: "Тест 1 не пройден: модуль не идемпотентен"
+
+    # Тест 2: Изменение содержимого
+    - name: Тест 2 - Изменение содержимого файла
+      my_namespace.my_collection.my_own_module:
+        path: /tmp/test_complex.txt
+        content: |
+          Измененное содержимое файла.
+          Новая строка.
+          Еще одна строка.
+        mode: "0644"
+        owner: "ubuntu"
+        group: "ubuntu"
+      register: test2
+
+    - name: Проверка теста 2 (изменение содержимого)
+      assert:
+        that: test2.changed
+        fail_msg: "Тест 2 не пройден: содержимое не изменилось"
+
+    # Тест 3: Изменение прав
+    - name: Тест 3 - Изменение прав файла
+      my_namespace.my_collection.my_own_module:
+        path: /tmp/test_complex.txt
+        content: |
+          Измененное содержимое файла.
+          Новая строка.
+          Еще одна строка.
+        mode: "0755"
+        owner: "ubuntu"
+        group: "ubuntu"
+      register: test3
+
+    - name: Проверка теста 3 (изменение прав)
+      assert:
+        that: test3.changed
+        fail_msg: "Тест 3 не пройден: права не изменились"
+
+    # Тест 4: Удаление файла
+    - name: Тест 4 - Удаление файла
+      my_namespace.my_collection.my_own_module:
+        path: /tmp/test_complex.txt
+        state: absent
+      register: test4
+
+    - name: Проверка теста 4 (удаление)
+      assert:
+        that: test4.changed
+        fail_msg: "Тест 4 не пройден: файл не удалился"
+
+    # Тест 5: Идемпотентность удаления
+    - name: Тест 5 - Повторное удаление файла
+      my_namespace.my_collection.my_own_module:
+        path: /tmp/test_complex.txt
+        state: absent
+      register: test5
+
+    - name: Проверка теста 5 (идемпотентность удаления)
+      assert:
+        that: not test5.changed
+        fail_msg: "Тест 5 не пройден: удаление не идемпотентно"
+
+    - name: Все тесты пройдены успешно
+      debug:
+        msg: |
+          ✅ Все 5 тестов пройдены успешно!
+          - Тест 1: Идемпотентность создания ✓
+          - Тест 2: Изменение содержимого ✓
+          - Тест 3: Изменение прав ✓
+          - Тест 4: Удаление файла ✓
+          - Тест 5: Идемпотентность удаления ✓
