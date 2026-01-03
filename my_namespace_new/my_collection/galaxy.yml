@@ -1,0 +1,22 @@
+namespace: my_namespace
+name: my_collection
+version: 1.0.0
+readme: README.md
+authors:
+  - Ваше Имя <your.email@example.com>
+description: Моя первая коллекция Ansible с собственным модулем
+license_file: LICENSE
+tags:
+  - development
+  - example
+  - custom_module
+dependencies: {}
+repository: https://github.com/yourusername/my-collection
+documentation: https://github.com/yourusername/my-collection/docs
+homepage: https://github.com/yourusername/my-collection
+issues: https://github.com/yourusername/my-collection/issues
+build_ignore:
+  - "*.pyc"
+  - ".git/"
+  - ".github/"
+  - "tests/"
