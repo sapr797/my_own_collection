@@ -1,0 +1,35 @@
+---
+- name: Простой тест идемпотентности
+  hosts: localhost
+  connection: local
+  
+  tasks:
+    - name: Удаляем старый файл
+      file:
+        path: /tmp/test_simple.txt
+        state: absent
+    
+    - name: Первый запуск
+      my_namespace.my_collection.my_own_module:
+        path: /tmp/test_simple.txt
+        content: "Тестовый контент"
+        mode: "0644"
+        owner: "ubuntu"
+        group: "ubuntu"
+      register: first
+    
+    - name: Второй запуск
+      my_namespace.my_collection.my_own_module:
+        path: /tmp/test_simple.txt
+        content: "Тестовый контент"
+        mode: "0644"
+        owner: "ubuntu"
+        group: "ubuntu"
+      register: second
+    
+    - debug:
+        msg: "Первый запуск: changed={{ first.changed }}, Второй запуск: changed={{ second.changed }}"
+    
+    - assert:
+        that: not second.changed
+        fail_msg: "Модуль не идемпотентен! Второй запуск показал changed=True"
