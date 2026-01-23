@@ -1,0 +1,15 @@
+---
+- name: Test with file lookup
+  hosts: localhost
+  connection: local
+  
+  tasks:
+    - name: Read key from file
+      my_own_namespace.yandex_cloud_elk.yandex_auth_test:
+        service_account_key: "{{ lookup('file', 'test_key.json') }}"
+        folder_id: "b1gtestfolder123"
+        validate_only: true
+      register: result
+    
+    - debug:
+        var: result

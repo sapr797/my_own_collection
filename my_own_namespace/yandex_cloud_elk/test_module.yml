@@ -1,0 +1,44 @@
+---
+- name: Test Yandex Cloud Auth Module
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  
+  vars:
+    # Тестовые данные (имитация ключа Yandex Cloud)
+    test_sa_key: |
+      {
+        "id": "ajeabc123def456ghi789",
+        "service_account_id": "ajeserviceacc123",
+        "private_key": "-----BEGIN PRIVATE KEY-----\nMII...\n-----END PRIVATE KEY-----"
+      }
+    test_folder_id: "b1g7h8f6m5n4p3q2r1s"
+  
+  tasks:
+    - name: Test authentication with validate_only
+      my_own_namespace.yandex_cloud_elk.yandex_auth_test:
+        service_account_key: "{{ test_sa_key }}"
+        folder_id: "{{ test_folder_id }}"
+        validate_only: true
+      register: auth_result
+    
+    - name: Display authentication results
+      debug:
+        msg: |
+          Authentication test completed:
+          - Authenticated: {{ auth_result.authenticated }}
+          - Folder ID: {{ auth_result.folder_id }}
+          - Validation passed: {{ auth_result.validation_passed }}
+          - Message: {{ auth_result.message }}
+          - Service Account ID: {{ auth_result.service_account_id | default('Not found') }}
+    
+    - name: Test without validate_only
+      my_own_namespace.yandex_cloud_elk.yandex_auth_test:
+        service_account_key: "{{ test_sa_key }}"
+        folder_id: "{{ test_folder_id }}"
+        validate_only: false
+      register: auth_result_full
+    
+    - name: Compare results
+      debug:
+        var: auth_result_full

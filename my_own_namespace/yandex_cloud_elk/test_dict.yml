@@ -1,0 +1,17 @@
+---
+- name: Dictionary test
+  hosts: localhost
+  connection: local
+  
+  tasks:
+    - name: Test with YAML dictionary
+      my_own_namespace.yandex_cloud_elk.yandex_auth_test:
+        service_account_key:
+          service_account_id: "ajeservice123"
+          private_key: "-----BEGIN PRIVATE KEY-----"
+          key_algorithm: "RSA_2048"
+        folder_id: "cat789"
+      register: result
+    
+    - debug:
+        var: result

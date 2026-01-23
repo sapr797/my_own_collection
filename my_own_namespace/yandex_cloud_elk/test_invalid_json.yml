@@ -1,0 +1,18 @@
+---
+- name: Invalid JSON test
+  hosts: localhost
+  connection: local
+  
+  tasks:
+    - name: Test with invalid JSON
+      my_own_namespace.yandex_cloud_elk.yandex_auth_test:
+        service_account_key: "not-a-json-at-all"
+        folder_id: "b1gtestfolder456"
+      register: result
+    
+    - debug:
+        msg: |
+          Invalid JSON test result:
+          - Failed: {{ result.failed | default(false) }}
+          - Authenticated: {{ result.authenticated | default('N/A') }}
+          - Message: {{ result.message | default('N/A') }}

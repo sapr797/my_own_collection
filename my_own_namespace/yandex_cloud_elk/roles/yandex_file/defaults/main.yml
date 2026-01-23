@@ -1,0 +1,11 @@
+---
+# Параметры по умолчанию для роли yandex_file
+yandex_file_path: "/tmp/yandex_cloud_file.txt"
+yandex_file_content: |
+  Этот файл создан ролью yandex_file
+  из коллекции my_own_namespace.yandex_cloud_elk
+  Дата создания: {{ ansible_date_time.date }}
+yandex_file_mode: "0644"
+yandex_file_owner: "root"
+yandex_file_group: "root"
+yandex_file_state: "present"

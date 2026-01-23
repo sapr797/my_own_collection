@@ -1,0 +1,25 @@
+---
+galaxy_info:
+  author: "sapr797"
+  description: "Роль для управления файлами в Yandex Cloud окружении"
+  company: "Ваша компания"
+  license: "MIT"
+  min_ansible_version: "2.9"
+  platforms:
+    - name: EL
+      versions:
+        - 7
+        - 8
+        - 9
+    - name: Ubuntu
+      versions:
+        - 18.04
+        - 20.04
+        - 22.04
+  galaxy_tags:
+    - yandex
+    - file
+    - filesystem
+    - idempotent
+
+dependencies: []

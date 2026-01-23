@@ -1,0 +1,25 @@
+namespace: my_own_namespace
+name: yandex_cloud_elk
+version: 1.0.0
+readme: README.md
+authors:
+  - sapr797 sapr797@gmail.com
+description: Коллекция Ansible для развертывания ELK-стека в Yandex Cloud
+license:
+  - MIT
+tags:
+  - yandex
+  - yandex-cloud
+  - elk
+  - elasticsearch
+  - logstash
+  - kibana
+  - file
+  - idempotent
+repository: https://github.com/sapr797/my_own_collection
+documentation: https://github.com/sapr797/my_own_collection
+issues: https://github.com/sapr797/my_own_collection/issues
+build_ignore:
+  - test_*.py
+  - .gitignore
+dependencies: {}

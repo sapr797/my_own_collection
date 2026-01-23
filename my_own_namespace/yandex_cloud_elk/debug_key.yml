@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    test_sa_key: '{"id": "test-id-123"}'
+  tasks:
+    - debug:
+        msg: "Key: {{ test_sa_key }}"
+    - debug:
+        msg: "Key type: {{ test_sa_key | type_debug }}"

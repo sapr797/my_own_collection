@@ -1,0 +1,18 @@
+---
+- name: Valid JSON test
+  hosts: localhost
+  connection: local
+  
+  tasks:
+    - name: Test with valid JSON
+      my_own_namespace.yandex_cloud_elk.yandex_auth_test:
+        service_account_key: '{"id": "test-123", "name": "test"}'
+        folder_id: "b1gtestfolder123"
+      register: result
+    
+    - debug:
+        msg: |
+          Valid JSON test result:
+          - Authenticated: {{ result.authenticated }}
+          - Validation passed: {{ result.validation_passed }}
+          - Message: {{ result.message }}

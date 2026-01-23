@@ -1,0 +1,55 @@
+---
+- name: Comprehensive Yandex Auth Test
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  
+  tasks:
+    # Тест 1: Валидный ключ
+    - name: Test 1 - Valid JSON key
+      my_own_namespace.yandex_cloud_elk.yandex_auth_test:
+        service_account_key: '{"service_account_id": "test-id-123"}'
+        folder_id: "b1gvalidfolder123"
+        validate_only: true
+      register: test1
+    
+    - name: Show Test 1 results
+      debug:
+        msg: "Test 1 (valid): {{ test1.authenticated }} - {{ test1.message }}"
+    
+    # Тест 2: Невалидный JSON
+    - name: Test 2 - Invalid JSON (should fail)
+      my_own_namespace.yandex_cloud_elk.yandex_auth_test:
+        service_account_key: "not-a-json"
+        folder_id: "b1gtestfolder456"
+        validate_only: true
+      ignore_errors: true
+      register: test2
+    
+    - name: Show Test 2 results
+      debug:
+        msg: "Test 2 (invalid JSON): {{ 'Failed as expected' if test2.failed else 'Should have failed' }}"
+    
+    # Тест 3: Неправильный формат folder_id
+    - name: Test 3 - Invalid folder ID format
+      my_own_namespace.yandex_cloud_elk.yandex_auth_test:
+        service_account_key: '{"id": "test"}'
+        folder_id: "invalid-folder-format"
+        validate_only: true
+      register: test3
+    
+    - name: Show Test 3 results
+      debug:
+        msg: "Test 3 (invalid folder): authenticated={{ test3.authenticated }}, message={{ test3.message }}"
+    
+    # Тест 4: Полный ключ с приватным ключом
+    - name: Test 4 - Full service account key
+      my_own_namespace.yandex_cloud_elk.yandex_auth_test:
+        service_account_key: '{"id": "aje123", "service_account_id": "aje456", "private_key": "-----BEGIN PRIVATE KEY-----\nMOCK\n-----END PRIVATE KEY-----"}'
+        folder_id: "cat789"
+        validate_only: false
+      register: test4
+    
+    - name: Show Test 4 results
+      debug:
+        msg: "Test 4 (full key): {{ test4.authenticated }} - {{ test4.message }} - SA ID: {{ test4.service_account_id }}"

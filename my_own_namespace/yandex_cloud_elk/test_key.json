@@ -1,0 +1,5 @@
+{
+  "id": "test-id-123",
+  "service_account_id": "test-sa-456",
+  "private_key": "mock-private-key"
+}

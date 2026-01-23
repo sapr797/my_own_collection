@@ -1,0 +1,33 @@
+---
+- name: All test cases
+  hosts: localhost
+  connection: local
+  
+  tasks:
+    - name: Case 1 - Simple string JSON
+      my_own_namespace.yandex_cloud_elk.yandex_auth_test:
+        service_account_key: '{"id": "case1"}'
+        folder_id: "b1gcase1"
+      register: case1
+    
+    - name: Case 2 - YAML dict
+      my_own_namespace.yandex_cloud_elk.yandex_auth_test:
+        service_account_key:
+          id: "case2-id"
+          account: "case2-account"
+        folder_id: "catcase2"
+      register: case2
+    
+    - name: Case 3 - Invalid JSON (should fail)
+      my_own_namespace.yandex_cloud_elk.yandex_auth_test:
+        service_account_key: "not-a-json-at-all"
+        folder_id: "b1gcase3"
+      ignore_errors: true
+      register: case3
+    
+    - name: Results
+      debug:
+        msg: |
+          Case 1: {{ case1.authenticated }} - {{ case1.message }}
+          Case 2: {{ case2.authenticated }} - {{ case2.service_account_id }}
+          Case 3: {{ 'Failed as expected' if case3.failed else 'ERROR' }}
