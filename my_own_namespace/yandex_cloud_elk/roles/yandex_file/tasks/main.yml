@@ -1,19 +1,4 @@
 ---
-- name: Управление файлом через yandex_file_manager
-  my_own_namespace.yandex_cloud_elk.yandex_file_manager:
-    path: "{{ yandex_file_path }}"
-    content: "{{ yandex_file_content }}"
-    mode: "{{ yandex_file_mode }}"
-    owner: "{{ yandex_file_owner }}"
-    group: "{{ yandex_file_group }}"
-    state: "{{ yandex_file_state }}"
-  register: file_result
-  
-- name: Показать результат операции с файлом
+- name: Управление файлами в Yandex Cloud
   debug:
-    msg: |
-      Файл {{ yandex_file_path }}:
-      - Изменения применены: {{ file_result.changed }}
-      - Размер: {{ file_result.size }} байт
-      - Права: {{ file_result.mode }}
-      - Владелец/Группа: {{ file_result.owner }}/{{ file_result.group }}
+    msg: "Это роль yandex_file для управления файлами в Yandex Cloud"

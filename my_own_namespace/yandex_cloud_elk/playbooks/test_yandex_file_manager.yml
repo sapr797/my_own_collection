@@ -1,0 +1,17 @@
+---
+- name: Тестирование модуля yandex_file_manager
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  
+  tasks:
+    - name: Вызвать модуль yandex_file_manager
+      my_own_namespace.yandex_cloud_elk.yandex_file_manager:
+        state: present
+        path: "/tmp/test_ansible.txt"
+        content: "Тест из Ansible коллекции"
+      register: result
+    
+    - name: Показать результат
+      debug:
+        var: result

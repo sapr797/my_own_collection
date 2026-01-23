@@ -1,32 +1,48 @@
-# Игнорируем виртуальное окружение Python
-venv/
-ansible312/
-ansible_dev_env/
-env/
-*.venv
+# Ansible
+*.retry
+*.tar.gz
 
-# Игнорируем кэш Python
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
-# Игнорируем скрытые файлы настроек IDE
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# Игнорируем служебные файлы и архивы
-*.retry
-*.tar.gz
-*.log
-
-# Игнорируем персональные или временные файлы
+# System
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-# Игнорируем потенциально чувствительные данные
-*.key
-*.pem
-*.cert
-vault.yml
+# Temporary files
+*.tmp
+*.temp
+/tmp/
+
+# Logs
+*.log
+
+# Collections build artifacts
+build/
+*.tar.gz
+
+# Test directories
+test_yandex_collection/
+
+# Backup directories
+my_collection_backup/

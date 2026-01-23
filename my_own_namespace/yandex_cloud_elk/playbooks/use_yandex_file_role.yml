@@ -1,0 +1,20 @@
+---
+- name: Использование модуля yandex_file_manager
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  
+  tasks:
+    - name: Простое сообщение для теста
+      debug:
+        msg: "Начинаем тестирование коллекции my_own_namespace.yandex_cloud_elk"
+    
+    - name: Вызов модуля yandex_file_manager
+      my_own_namespace.yandex_cloud_elk.yandex_file_manager:
+        path: "/tmp/test_file.txt"
+        state: present
+      register: result
+    
+    - name: Показать результат выполнения модуля
+      debug:
+        var: result
